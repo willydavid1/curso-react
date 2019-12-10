@@ -1,0 +1,77 @@
+/* icono de twitter */
+@font-face {
+	font-family: 'icomoon';
+	src: url('../fonts/icomoon.eot?77tp7m');
+	src: url('../fonts/icomoon.eot?77tp7m#iefix') format('embedded-opentype'),
+		url('../fonts/icomoon.ttf?77tp7m') format('truetype'),
+		url('../fonts/icomoon.woff?77tp7m') format('woff'),
+		url('../fonts/icomoon.svg?77tp7m#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+	font-display: block;
+}
+
+[class^='icon-'],
+[class*=' icon-'] {
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: 'icomoon' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-twitter:before {
+	content: '\e901';
+}
+
+/* mis estilos */
+.item-list-BadgeList {
+	display: flex;
+	background: white;
+	border-radius: 10px;
+	margin-bottom: 10px;
+	overflow: hidden;
+	padding: 10px 0;
+	position: relative;
+	z-index: 1;
+
+    /* SOMBRAS */
+	-webkit-box-shadow: 7px 7px 21px -8px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 7px 7px 21px -8px rgba(0, 0, 0, 0.75);
+	box-shadow: 7px 7px 21px -8px rgba(0, 0, 0, 0.75);
+}
+
+.img-persona {
+	width: 30%;
+	border-radius: 50%;
+	margin: 0 30px;
+}
+
+/* RESETEAMOS LOS P QUE TIENEN MARGIN BOTTON DE 16PX */
+.container p {
+	margin-bottom: 0;
+}
+.container {
+	margin-top: -5px;
+}
+
+.p-twitter {
+	color: #009ced;
+}
+.logo-twitter {
+	font-size: 22px;
+}
+
+/* posiciono el wave */
+.wave {
+	width: 100%;
+	position: absolute;
+	z-index: -1;
+}
