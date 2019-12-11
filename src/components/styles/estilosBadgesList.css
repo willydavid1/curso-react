@@ -42,7 +42,7 @@
 	position: relative;
 	z-index: 1;
 
-    /* SOMBRAS */
+	/* SOMBRAS */
 	-webkit-box-shadow: 7px 7px 21px -8px rgba(0, 0, 0, 0.75);
 	-moz-box-shadow: 7px 7px 21px -8px rgba(0, 0, 0, 0.75);
 	box-shadow: 7px 7px 21px -8px rgba(0, 0, 0, 0.75);
@@ -74,4 +74,5 @@
 	width: 100%;
 	position: absolute;
 	z-index: -1;
+	bottom: -15px;
 }

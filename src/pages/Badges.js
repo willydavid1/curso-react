@@ -1,4 +1,5 @@
 import React from 'react'; //importamos react para hacer componentes
+import { Link } from 'react-router-dom'; //importamos el componente link para que no recarge la pagina
 
 import './styles/Badges.css'; //importamos los estilos
 import confLogo from '../images/badge-header.svg'; //importamos la imagen y hacemos referencia a ella con confLogo
@@ -61,9 +62,9 @@ class Badges extends React.Component {
 
 				<div className="Badge__container">
 					<div className="Badges__buttons">
-						<a href="/badges/new" className="btn btn-primary">
+						<Link to="/badges/new" className="btn btn-primary">
 							New Badge
-						</a>
+						</Link>
 					</div>
 				</div>
 
