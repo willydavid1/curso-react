@@ -1,0 +1,20 @@
+.home {
+	height: 100vh;
+	background: url(../../images/stars.svg), #1b1b25;
+	background-repeat: repeat;
+	align-items: center;
+}
+
+.astronauts-HOME,
+.platziconfLogo-HOME {
+	width: 100%;
+}
+
+.h1-HOME,
+.h6-HOME {
+	color: white;
+}
+
+.h1-HOME {
+	font-size: 30px;
+}
