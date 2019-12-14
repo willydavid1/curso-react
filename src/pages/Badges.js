@@ -5,6 +5,9 @@ import './styles/Badges.css'; //importamos los estilos
 import confLogo from '../images/badge-header.svg'; //importamos la imagen y hacemos referencia a ella con confLogo
 import BadgesList from '../components/BadgesList'; // importamos el componente Navbar
 
+import PageLoading from '../components/PageLoading'; // importamos el componente PageLoading
+import PageError from '../components/PageError'; // importamos el componente PageError
+
 import api from '../api'; //importamos la api que esta corriendo en el puerto 3001 y alli vamos a hacer las llamadas
 
 // Explicacion a ciclo de vida de componentes
@@ -32,24 +35,17 @@ class Badges extends React.Component {
 		} catch (error) {
 			this.setState({ loading: false, error: error }); //EN CASO que ocurra error áñadimos al estado el error (el catch recibe el error por parámetro) y pasamos a false el loading
 		}
-
-		// try {
-		// 	const data = await api.badges.list(); //realizamos la llamada a la api fake | esa llamada es asíncrona retorna una promesa cuando la resuelv almacena el valor en data y si hay error lo capturamos en el catch y lo guardamos en el estado
-		// 	this.setState({ loading: false, data: data }); //si obtenemos lo datos los guardamos
-		// } catch (error) {
-		// 	this.setState({ loading: false, error: error });
-		// }
 	};
 
 	render() {
 		if (this.state.loading === true) {
 			//lo primero es manejar el estado donde loading sea cierto dentro del render retornando un mensaje de Loading.. Cuando loading acabe talvez nuestros datos ya estén disponibles
-			return 'Loading...';
+			return <PageLoading />;
 		}
 
 		if (this.state.error) {
-			// si hay un error en el state manejamos el error, que esta en el estado y lo pintamos en pantalla
-			return `Error: ${this.state.error.message}`;
+			// si hay un error en el state manejamos el error, que esta en el estado, llamamos al componente PageError y le mandamos como props el error que esta en el estado
+			return <PageError error={this.state.error} />;
 		}
 
 		return (

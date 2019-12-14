@@ -25,8 +25,8 @@ const api = {
 	badges: {
 		list() {
 			// return []; //simulamos que la api nos retorna un array vacio
-			throw new Error('No encontrado, este error lo puse en la api');
-			// return callApi('/badges');
+			// throw new Error('500: Server Error. este error lo puse en la api');
+			return callApi('/badges');
 		},
 		create(badge) {
 			return callApi(`/badges`, {
