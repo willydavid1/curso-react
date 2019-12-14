@@ -1,8 +1,21 @@
 import React from 'react';
 import './styles/estilosBadgesList.css'; //IMPORTAMOS LOS ESTILOS PARA ESTA LISTA
+import { Link } from 'react-router-dom';
 
 class BadgesList extends React.Component {
 	render() {
+		if (this.props.badges.length === 0) {
+			// si el array esta vacio es decir no hubo ningun dato en el estado (el estado tenemos un array vacio) mostramos esto
+			return (
+				<div>
+					<h3>No encontramos ningun badge</h3>
+					<Link className="btn btn-primary" to="/badges/new">
+						Crea un nuevo badge
+					</Link>
+				</div>
+			);
+		}
+
 		return (
 			<ul className="list-unstyled ul-BadgeList">
 				{this.props.badges.map((badge) => {

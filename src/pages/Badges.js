@@ -5,88 +5,52 @@ import './styles/Badges.css'; //importamos los estilos
 import confLogo from '../images/badge-header.svg'; //importamos la imagen y hacemos referencia a ella con confLogo
 import BadgesList from '../components/BadgesList'; // importamos el componente Navbar
 
+import api from '../api'; //importamos la api que esta corriendo en el puerto 3001 y alli vamos a hacer las llamadas
+
 // Explicacion a ciclo de vida de componentes
 // Cuando llamamos a componentDidMount() que inserte en el estado info  ocurre una actualización que Vuelve a llamar a render, porque cambia la información y cambia como se ve nuestro componente JUNTO ESA ACTUALIZACION SE LLAMA A componentDidUpdate() que recibe por parámetro los props y estado que tenia anteriormente y si nos vamos a otra pagina se llama a componentWillUnmount() es el momento preciso antes que se vaya el componente del dom, donde cancelamos peticiones al actualizar el Estado (BADGES.JS - PAGINA)
 
 class Badges extends React.Component {
-	// El constructor recibe props y esos props los tenemos que utilizar para inicializar la superclase en este caso es component CON super(props) y es aqui donde inicializamos estado
-	constructor(props) {
-		super(props);
-		console.log('1. constructor()');
+	//inicializamos el estado con un atributo loading, data y error
+	state = {
+		loading: true,
+		error: null,
+		data: undefined
+	};
 
-		//inicializamos el estado con un atributo llamado data que sera un array y ese array tendra objetos dentro pero ahorita esta vacio
-		this.state = {
-			data: []
-		};
-	}
-
+	// EL MEJOR LUGAR PARA TRABAJAR UNA PETICION A UNA API ES EN EL componentDidMount()
 	componentDidMount() {
-		console.log('3. componentDidMount()');
-
-		//esta funcion va a actualizar el estado en 3s añadimos un array con 3 objetos
-		this.timeoutId = setTimeout(() => {
-			this.setState({
-				data: [
-					{
-						id: '2de30c42-9deb-40fc-a41f-05e62b5939a7',
-						firstName: 'Freda',
-						lastName: 'Grady',
-						email: 'Leann_Berge@gmail.com',
-						jobTitle: 'Legacy Brand Director',
-						twitter: 'FredaGrady22221-7573',
-						avatarUrl:
-							'https://www.gravatar.com/avatar/f63a9c45aca0e7e7de0782a6b1dff40b?d=identicon'
-					},
-					{
-						id: 'd00d3614-101a-44ca-b6c2-0be075aeed3d',
-						firstName: 'Major',
-						lastName: 'Rodriguez',
-						email: 'Ilene66@hotmail.com',
-						jobTitle: 'Human Research Architect',
-						twitter: 'MajorRodriguez61545',
-						avatarUrl:
-							'https://www.gravatar.com/avatar/d57a8be8cb9219609905da25d5f3e50a?d=identicon'
-					},
-					{
-						id: '63c03386-33a2-4512-9ac1-354ad7bec5e9',
-						firstName: 'Daphney',
-						lastName: 'Torphy',
-						email: 'Ron61@hotmail.com',
-						jobTitle: 'National Markets Officer',
-						twitter: 'DaphneyTorphy96105',
-						avatarUrl:
-							'https://www.gravatar.com/avatar/e74e87d40e55b9ff9791c78892e55cb7?d=identicon'
-					}
-				]
-			});
-		}, 3000);
+		this.fetchData(); // llamamos al metodo
 	}
 
-	componentDidUpdate(prevProps, prevState) {
-		//recibe los props que teniamos antes y el state que teniamos antes|cuando llamamos a componentDidMount que inserte en el estado info  ocurre una actualizacion que Vuelve a llamar a render, porque cambia la informacion y cambia como se ve nuestro componente JUNTO ESA ACTUALIZACION SE LLAMA A componentDidUpdate()
-		console.log('5. componentDidUpdate()');
+	fetchData = async () => {
+		this.setState({ loading: true, error: null }); //insertamos en el estado estos datos | esto porque si en un futuro volvemos a llamar a fecthdata, esos valores podían estar cambiados
 
-		//imprimimos los valores que teniamos antes y despues del update | antes en estado un update vacio y despues uno con la actualizacion la info en el state
-		console.log({
-			prevProps: prevProps,
-			prevState: prevState
-		});
+		try {
+			const data = await api.badges.list(); // Esa llamada es asíncrona retorna una promesa cuando la resuelva almacena el valor en const data y si sucede un error la manejamos con catch
+			this.setState({ loading: false, data: data }); // Si obtenemos los datos lo guardamos en el estado, en el atributo data con la data que nos llega de la api
+		} catch (error) {
+			this.setState({ loading: false, error: error }); //EN CASO que ocurra error áñadimos al estado el error (el catch recibe el error por parámetro) y pasamos a false el loading
+		}
 
-		// imprimimos los props y estado actual del componente Badges
-		console.log({
-			props: this.props,
-			state: this.state
-		});
-	}
-
-	componentWillUnmount() {
-		// momento preciso antes que se vaya el componente del dom | cuando se desmonta el componente y sale de escena para provocarlo que puede navegar a otra pagina
-		console.log('6. componentWillUnmount()');
-		clearTimeout(this.timeoutId); //elimina el id si el trabajo esta pendiente lo cancela no ocurre el timeout | si le pasamos y ese timeout ya expiro no pasa nada
-	}
+		// try {
+		// 	const data = await api.badges.list(); //realizamos la llamada a la api fake | esa llamada es asíncrona retorna una promesa cuando la resuelv almacena el valor en data y si hay error lo capturamos en el catch y lo guardamos en el estado
+		// 	this.setState({ loading: false, data: data }); //si obtenemos lo datos los guardamos
+		// } catch (error) {
+		// 	this.setState({ loading: false, error: error });
+		// }
+	};
 
 	render() {
-		console.log('2/4. render()');
+		if (this.state.loading === true) {
+			//lo primero es manejar el estado donde loading sea cierto dentro del render retornando un mensaje de Loading.. Cuando loading acabe talvez nuestros datos ya estén disponibles
+			return 'Loading...';
+		}
+
+		if (this.state.error) {
+			// si hay un error en el state manejamos el error, que esta en el estado y lo pintamos en pantalla
+			return `Error: ${this.state.error.message}`;
+		}
 
 		return (
 			<React.Fragment>
