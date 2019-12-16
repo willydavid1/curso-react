@@ -3,6 +3,7 @@ import React from 'react'; //importamos react porque estaremos utilizando jsx
 import './styles/Badge.css'; //No guardamos en variable los estilos sino los importamos directamente y puede ser usado dentro y acceder a cualquier estilo
 
 import confLogo from '../images/badge-header.svg'; //importamos la imagen y accedemos a ella como confLogo
+import Gravatar from './Gravatar'; //importamos el componente que retorna un gravatar una imagen referente al email que le pasemos y lo setea a hash md5()
 
 //creamos el componente Badge, Los  componentes son clases
 class Badge extends React.Component {
@@ -16,9 +17,9 @@ class Badge extends React.Component {
 				</div>
 
 				<div className="Badge__section-name">
-					<img
+					<Gravatar
 						className="Badge__avatar"
-						src={this.props.avatarUrl}
+						email={this.props.email}
 						alt="avatar"
 					/>
 

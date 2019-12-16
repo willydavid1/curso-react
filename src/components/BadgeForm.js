@@ -21,19 +21,19 @@ class BadgeForm extends React.Component {
 		console.log('El boton fue presionado');
 	};
 
-	handleSubmit = (e) => {
-		// manejamos el evento de tipo submit del formulario, para que no se envie el formulario con e.preventDefault(); del evento
-		e.preventDefault();
-		console.log('Formulario enviado');
-		console.log(this.state); //cuando enviemos el formulario vamos a imprimir todo el estado
-	};
+	// handleSubmit = (e) => {
+	// 	// manejamos el evento de tipo submit del formulario, para que no se envie el formulario con e.preventDefault(); del evento
+	// 	e.preventDefault();
+	// 	console.log('Formulario enviado');
+	// 	console.log(this.state); //cuando enviemos el formulario vamos a imprimir todo el estado
+	// };
 
 	render() {
 		return (
 			<div>
 				<h1>New Attendant</h1>
 
-				<form onSubmit={this.handleSubmit}>
+				<form onSubmit={this.props.onSubmit}>
 					<div className="form-group">
 						<label>First Name</label>
 						<input

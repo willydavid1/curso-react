@@ -2,6 +2,8 @@ import React from 'react';
 import './styles/estilosBadgesList.css'; //IMPORTAMOS LOS ESTILOS PARA ESTA LISTA
 import { Link } from 'react-router-dom';
 
+import Gravatar from "./Gravatar" //importamos el componente gravatar que muestra la img del gravatar
+
 class BadgesList extends React.Component {
 	render() {
 		if (this.props.badges.length === 0) {
@@ -22,9 +24,9 @@ class BadgesList extends React.Component {
 					//el estado que lo estamos pasando como props (this.props.badges), vamos a iterar cada uno de sus elementos del objeto es un array el atributo data del estado
 					return (
 						<li key={badge.id} className="item-list-BadgeList">
-							<img
+							<Gravatar
 								className="img-persona"
-								src={badge.avatarUrl}
+								email={badge.email}
 								alt="imagen de la persona"
 							/>
 
