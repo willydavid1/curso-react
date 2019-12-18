@@ -7,6 +7,7 @@ import BadgesList from '../components/BadgesList'; // importamos el componente N
 
 import PageLoading from '../components/PageLoading'; // importamos el componente PageLoading
 import PageError from '../components/PageError'; // importamos el componente PageError
+import MiniLoader from '../components/MiniLoader'; // importamos el componente MiniLoader
 
 import api from '../api'; //importamos la api que esta corriendo en el puerto 3001 y alli vamos a hacer las llamadas
 
@@ -24,6 +25,13 @@ class Badges extends React.Component {
 	// EL MEJOR LUGAR PARA TRABAJAR UNA PETICION A UNA API ES EN EL componentDidMount()
 	componentDidMount() {
 		this.fetchData(); // llamamos al metodo
+
+		// console.log('se monta el componente');
+		this.intervalId = setInterval(this.fetchData, 5000); //1er parametro que va a ejecutar, 2do cada cuanto tiempo llamara a la funcion
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.intervalId); //justo antes que se desmonte el componente borramos el intervalo
 	}
 
 	fetchData = async () => {
@@ -38,8 +46,9 @@ class Badges extends React.Component {
 	};
 
 	render() {
-		if (this.state.loading === true) {
-			//lo primero es manejar el estado donde loading sea cierto dentro del render retornando un mensaje de Loading.. Cuando loading acabe talvez nuestros datos ya estén disponibles
+		// console.log('render');
+		if (this.state.loading === true && this.state.data === undefined) {
+			//if el estado esta en true y la data del estado esta vacia
 			return <PageLoading />;
 		}
 
@@ -73,6 +82,8 @@ class Badges extends React.Component {
 				<div className="Badges__list">
 					<div className="Badges__container">
 						<BadgesList badges={this.state.data} />
+
+						{this.state.loading && <MiniLoader />}
 					</div>
 				</div>
 			</React.Fragment>
