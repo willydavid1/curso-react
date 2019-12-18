@@ -4,11 +4,14 @@ import './styles/BadgeNew.css'; // importamos los estilos del hero
 import header from '../images/platziconf-logo.svg'; //importamos la imagen y hacemos referencia a ella como header | esta es la img del hero
 import Badge from '../components/Badge'; //importamos el componente Badge - recibe props
 import BadgeForm from '../components/BadgeForm'; //importamos el componente BadgeForm de la carpeta de componentes y hacemos referencia a el con BadgeForm
+import PageLoading from '../components/PageLoading'; //importamos el componente BadgeForm de la carpeta de componentes y hacemos referencia a el con BadgeForm
 
 import api from '../api'; //im´portamos la api para una llamada
 
 class BadgeNew extends React.Component {
 	state = {
+		loading: false,
+		error: null,
 		form: {
 			//inicializamos el estado de BadgeNew y le añadimos una propiedad que tiene un objeto inicializando los valores del formulario, para evitar el warning en la consola
 			firstName: '',
@@ -42,12 +45,18 @@ class BadgeNew extends React.Component {
 			//hacemos la peticion de tipo post y le pasamos los datos a guardar, la info del estado, (la info del fomulario)
 			await api.badges.create(this.state.form);
 			this.setState({ loading: false });
+
+			this.props.history.push('/badges'); //si se ejecuto la peticion correctamente, redirigimos a la ruta /badges
 		} catch (error) {
 			this.setState({ loading: false, error: error });
 		}
 	};
 
 	render() {
+		//if la peticion de tipo POST esta ocurriendo ejecuta esto
+		if (this.state.loading) {
+			return <PageLoading />;
+		}
 		return (
 			<React.Fragment>
 				<div className="BadgeNew__hero">
@@ -76,6 +85,7 @@ class BadgeNew extends React.Component {
 								onChange={this.handleChange}
 								onSubmit={this.handleSubmit}
 								formValues={this.state.form}
+								error={this.state.error}
 							/>
 						</div>
 					</div>
