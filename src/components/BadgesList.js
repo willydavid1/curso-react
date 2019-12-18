@@ -2,7 +2,7 @@ import React from 'react';
 import './styles/estilosBadgesList.css'; //IMPORTAMOS LOS ESTILOS PARA ESTA LISTA
 import { Link } from 'react-router-dom';
 
-import Gravatar from "./Gravatar" //importamos el componente gravatar que muestra la img del gravatar
+import Gravatar from './Gravatar'; //importamos el componente gravatar que muestra la img del gravatar
 
 class BadgesList extends React.Component {
 	render() {
@@ -40,6 +40,13 @@ class BadgesList extends React.Component {
 								</p>
 
 								<p>{badge.jobTitle}</p>
+
+								<Link
+									className="btn btn-primary"
+									to={`/badges/${badge.id}/edit`}
+								>
+									Editar este badge
+								</Link>
 							</div>
 
 							<div className="wave">

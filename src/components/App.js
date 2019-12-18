@@ -7,15 +7,18 @@ import BadgeNew from '../pages/BadgeNew'; //importamos el componente BadgeNew
 import Home from '../pages/HomePage'; //importamos la pagina del home que se renderiza cuando haga match con /
 import MiComponente404 from '../pages/MiComponente404';
 
+import BadgeEdit from '../pages/BadgeEdit'; //importamos el componente para editar badges
+
 // definimos un componente de otra manera sin usar class sino como funcion, se puede hacer cuando no haya metodos o que no estemos usando estado, el switch toma la direccion que esta en el navegador y se asegura que solamente un Route se renderize la primera que coincida con esa ruta
 function App() {
 	return (
 		<BrowserRouter>
 			<Layout>
 				<Switch>
+					<Route exact path="/" component={Home} />
 					<Route exact path="/badges" component={Badges} />
 					<Route exact path="/badges/new" component={BadgeNew} />
-					<Route exact path="/" component={Home} />
+					<Route exact path="/badges/:badgeId/edit" component={BadgeEdit} />
 
 					<Route path="/404" component={MiComponente404} />
 					<Redirect from="*" to="/404" />

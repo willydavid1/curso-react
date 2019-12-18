@@ -1,6 +1,6 @@
 import React from 'react'; //importamos react porque esto sera un componente
 
-import './styles/BadgeNew.css'; // importamos los estilos del hero
+import './styles/BadgeEdit.css'; // importamos los estilos del hero
 import header from '../images/platziconf-logo.svg'; //importamos la imagen y hacemos referencia a ella como header | esta es la img del hero
 import Badge from '../components/Badge'; //importamos el componente Badge - recibe props
 import BadgeForm from '../components/BadgeForm'; //importamos el componente BadgeForm de la carpeta de componentes y hacemos referencia a el con BadgeForm
@@ -8,17 +8,36 @@ import PageLoading from '../components/PageLoading'; //importamos el componente 
 
 import api from '../api'; //im´portamos la api para una llamada
 
-class BadgeNew extends React.Component {
+class BadgeEdit extends React.Component {
 	state = {
-		loading: false,
+		loading: true,
 		error: null,
 		form: {
-			//inicializamos el estado de BadgeNew y le añadimos una propiedad que tiene un objeto inicializando los valores del formulario, para evitar el warning en la consola
+			//inicializamos el estado de BadgeEdit y le añadimos una propiedad que tiene un objeto inicializando los valores del formulario, para evitar el warning en la consola
 			firstName: '',
 			lastName: '',
 			email: '',
 			jobTitle: '',
 			twitter: ''
+		}
+	};
+
+	//cuando el componentDidMount() ocurra buscamos los datos, llamamos al metodo fetchData
+	componentDidMount() {
+		this.fetchData();
+	}
+
+	//ejecutamos la peticion de tipo get para traer al usuario especifico
+	fetchData = async () => {
+		this.setState({ loading: true, error: null });
+
+		try {
+			//En la petición de tipo get le especificamos a la api que nos traiga el id de la url PARA LEERLO usando unos de los props que los routes le pasan a los componentes match y guardamos esos datos en el estado en el atributo form
+			const data = await api.badges.read(this.props.match.params.badgeId);
+
+			this.setState({ loading: false, form: data });
+		} catch (error) {
+			this.setState({ loading: false, error: error });
 		}
 	};
 
@@ -36,14 +55,14 @@ class BadgeNew extends React.Component {
 		});
 	};
 
-	// Manejamos el evento de tipo submit del formulario del componente de badgeForm en BadgeNew, para que no se envie el formulario con e.preventDefault(); del evento, prevenimos el envio del formulario
+	// Manejamos el evento de tipo submit del formulario del componente de badgeForm en BadgeEdit, para que no se envie el formulario con e.preventDefault(); del evento, prevenimos el envio del formulario
 	handleSubmit = async (e) => {
 		e.preventDefault();
 		this.setState({ loading: true, error: null });
 
 		try {
-			//hacemos la peticion de tipo post y le pasamos los datos a guardar, la info del estado, (la info del fomulario)
-			await api.badges.create(this.state.form);
+			//hacemos la peticion de tipo update PUT y recibe un id y los datos a actualizar de ese id
+			await api.badges.update(this.props.match.params.badgeId, this.state.form);
 			this.setState({ loading: false });
 
 			this.props.history.push('/badges'); //si se ejecuto la peticion correctamente, redirigimos a la ruta /badges
@@ -59,9 +78,9 @@ class BadgeNew extends React.Component {
 		}
 		return (
 			<React.Fragment>
-				<div className="BadgeNew__hero">
+				<div className="BadgeEdit__hero">
 					<img
-						className="BadgeNew__hero-image img-fluid"
+						className="BadgeEdit__hero-image img-fluid"
 						src={header}
 						alt="Logo"
 					/>
@@ -81,7 +100,7 @@ class BadgeNew extends React.Component {
 							/>
 						</div>
 						<div className="col-6">
-							<h1>Crear un Asistente</h1>
+							<h1>Editar Asistente</h1>
 
 							<BadgeForm
 								onChange={this.handleChange}
@@ -97,4 +116,4 @@ class BadgeNew extends React.Component {
 	}
 }
 
-export default BadgeNew; //exportamos el componente (la clase BadgeNew)
+export default BadgeEdit; //exportamos el componente (la clase BadgeEdit)
