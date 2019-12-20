@@ -5,7 +5,7 @@ import Layout from './Layout'; // importamos la plantilla base
 import Badges from '../pages/Badges'; //importamos el componente de tipo pagina Badges
 import BadgeNew from '../pages/BadgeNew'; //importamos el componente BadgeNew
 import Home from '../pages/HomePage'; //importamos la pagina del home que se renderiza cuando haga match con /
-import BadgeDetails from '../pages/BadgeDetails'; //importamos BadgeDetails, para solo mostrar los datos de un solo badge
+import BadgeDetails from '../pages/BadgeDetailsContainer'; //importamos BadgeDetailsContainer, para solo mostrar los datos de un solo badge
 import MiComponente404 from '../pages/MiComponente404';
 
 import BadgeEdit from '../pages/BadgeEdit'; //importamos el componente para editar badges
