@@ -5,6 +5,7 @@ import Layout from './Layout'; // importamos la plantilla base
 import Badges from '../pages/Badges'; //importamos el componente de tipo pagina Badges
 import BadgeNew from '../pages/BadgeNew'; //importamos el componente BadgeNew
 import Home from '../pages/HomePage'; //importamos la pagina del home que se renderiza cuando haga match con /
+import BadgeDetails from '../pages/BadgeDetails'; //importamos BadgeDetails, para solo mostrar los datos de un solo badge
 import MiComponente404 from '../pages/MiComponente404';
 
 import BadgeEdit from '../pages/BadgeEdit'; //importamos el componente para editar badges
@@ -18,6 +19,7 @@ function App() {
 					<Route exact path="/" component={Home} />
 					<Route exact path="/badges" component={Badges} />
 					<Route exact path="/badges/new" component={BadgeNew} />
+					<Route exact path="/badges/:badgeId" component={BadgeDetails} />
 					<Route exact path="/badges/:badgeId/edit" component={BadgeEdit} />
 
 					<Route path="/404" component={MiComponente404} />

@@ -41,11 +41,8 @@ class BadgesList extends React.Component {
 
 								<p>{badge.jobTitle}</p>
 
-								<Link
-									className="btn btn-primary"
-									to={`/badges/${badge.id}/edit`}
-								>
-									Editar este badge
+								<Link className="btn btn-primary" to={`/badges/${badge.id}`}>
+									Ver este badge (detalles)
 								</Link>
 							</div>
 
