@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom'; //esto para crear un portal
 
 import './styles/BadgeDetails.css';
 import confLogo from '../images/platziconf-logo.svg';
@@ -8,8 +9,8 @@ import Badge from '../components/Badge'; //importamos el componente Badge
 import { Link } from 'react-router-dom';
 
 function BadgeDetails(props) {
-    const badge = props.badge; //guardamos en badge el objeto que nos llega con la info del badge especifico de su id
-    // console.log(badge)
+	const badge = props.badge; //guardamos en badge el objeto que nos llega con la info del badge especifico de su id
+	// console.log(badge)
 
 	return (
 		<React.Fragment>
@@ -55,6 +56,11 @@ function BadgeDetails(props) {
 
 							<div>
 								<button className="btn btn-danger"> eliminar </button>
+								{ReactDOM.createPortal(
+									//recibe que vamos a renderizar y donde
+									<h1>Hola, este es el portal</h1>,
+									document.getElementById('modal')
+								)}
 							</div>
 						</div>
 					</div>
