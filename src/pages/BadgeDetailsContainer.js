@@ -10,7 +10,8 @@ class BadgeDetailsContainer extends React.Component {
 	state = {
 		loading: true,
 		error: null,
-		data: undefined
+		data: undefined,
+		modalIsOpen: false
 	};
 
 	//cuando se monte el componente, llama al siguiente metodo
@@ -31,6 +32,32 @@ class BadgeDetailsContainer extends React.Component {
 		}
 	};
 
+	// Cuando ocurra el evento de abrir una ventana en el modal llama a este metodo
+	handleOpenModal = (e) => {
+		this.setState({ modalIsOpen: true });
+	};
+
+	// Cuando ocurra el evento de cerrar la ventana en el Modal, llama a esta función de this.handleCloseModal que cambia el estado y dice que ese atributo es false
+	handleCloseModal = (e) => {
+		this.setState({ modalIsOpen: false });
+	};
+
+	// si da click en el boton de eliminar llama a este metodo
+	handleDeleteBadge = async (e) => {
+		this.setState({ loading: true, error: null });
+
+		try {
+			// eliminamos el id que esta en la URL y lo movemos a otra URL
+			await api.badges.remove(this.props.match.params.badgeId);
+
+			this.setState({ loading: false });
+
+			this.props.history.push('/badges');
+		} catch (error) {
+			this.setState({ loading: false, error: error });
+		}
+	};
+
 	render() {
 		//si el estado esta loading mostramos el loading y si hay error tambien lo mostramos
 		if (this.state.loading === true) {
@@ -42,7 +69,15 @@ class BadgeDetailsContainer extends React.Component {
 			return <PageError error={this.state.error} />;
 		}
 
-		return <BadgeDetails badge={this.state.data} />;
+		return (
+			<BadgeDetails
+				OnCloseModal={this.handleCloseModal}
+				OnOpenModal={this.handleOpenModal}
+				onDeleteBadge={this.handleDeleteBadge}
+				modalIsOpen={this.state.modalIsOpen}
+				badge={this.state.data}
+			/>
+		);
 	}
 }
 

@@ -1,10 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom'; //esto para crear un portal
 
 import './styles/BadgeDetails.css';
 import confLogo from '../images/platziconf-logo.svg';
 
 import Badge from '../components/Badge'; //importamos el componente Badge
+import DeleteBadgeModal from '../components/DeleteBadgeModal'; //importamos el componente DeleteBadgeModal
 
 import { Link } from 'react-router-dom';
 
@@ -55,12 +55,14 @@ function BadgeDetails(props) {
 							</div>
 
 							<div>
-								<button className="btn btn-danger"> eliminar </button>
-								{ReactDOM.createPortal(
-									//recibe que vamos a renderizar y donde
-									<h1>Hola, este es el portal</h1>,
-									document.getElementById('modal')
-								)}
+								<button onClick={props.OnOpenModal} className="btn btn-danger">
+									eliminar
+								</button>
+								<DeleteBadgeModal
+									isOpen={props.modalIsOpen}
+									onClose={props.OnCloseModal}
+									onDeleteBadge={props.onDeleteBadge}
+								/>
 							</div>
 						</div>
 					</div>
