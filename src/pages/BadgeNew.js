@@ -39,8 +39,21 @@ class BadgeNew extends React.Component {
 	// Manejamos el evento de tipo submit del formulario del componente de badgeForm en BadgeNew, para que no se envie el formulario con e.preventDefault(); del evento, prevenimos el envio del formulario
 	handleSubmit = async (e) => {
 		e.preventDefault();
-		this.setState({ loading: true, error: null });
 
+		//manejamos si los campos del formulario hayan sido enviados vacios insertando en el estado el tipo de error
+		if (this.state.form.firstName === '') {
+			return this.setState({ error: 'first name vacio' });
+		} else if (this.state.form.lastName === '') {
+			return this.setState({ error: 'lastName vacio' });
+		} else if (this.state.form.email === '') {
+			return this.setState({ error: 'email vacio' });
+		} else if (this.state.form.jobTitle === '') {
+			return this.setState({ error: 'email jobTitle' });
+		} else if (this.state.form.twitter === '') {
+			return this.setState({ error: 'jobTitle vacio' });
+		}
+
+		this.setState({ loading: true, error: null });
 		try {
 			//hacemos la peticion de tipo post y le pasamos los datos a guardar, la info del estado, (la info del fomulario)
 			await api.badges.create(this.state.form);
