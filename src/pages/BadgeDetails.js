@@ -8,7 +8,20 @@ import DeleteBadgeModal from '../components/DeleteBadgeModal'; //importamos el c
 
 import { Link } from 'react-router-dom';
 
+// creamos un custom hook
+function useIncreaseCount(max) {
+	const [count, setCount] = React.useState(0);
+
+	if (count > max) {
+		setCount(0);
+	}
+
+	return [count, setCount];
+}
+
 function BadgeDetails(props) {
+	const [count, setCount] = useIncreaseCount(4); // Para manejo de estado y esta funcion nos retorna dos argumentos en un array, donde count hace referencia a state y setCount a setState solo que aqui nosotros le damos los nombres
+	
 	const badge = props.badge; //guardamos en badge el objeto que nos llega con la info del badge especifico de su id
 	// console.log(badge)
 
@@ -46,6 +59,15 @@ function BadgeDetails(props) {
 
 						<div>
 							<div>
+								<button
+									onClick={() => {
+										setCount(count + 1);
+									}}
+									className="btn btn-primary d-block mb-4"
+								>
+									Increase Count: {count}
+								</button>
+
 								<Link
 									className="btn btn-primary mb-4"
 									to={`/badges/${badge.id}/edit`}
