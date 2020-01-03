@@ -4,24 +4,76 @@ import { Link } from 'react-router-dom';
 
 import Gravatar from './Gravatar'; //importamos el componente gravatar que muestra la img del gravatar
 
-class BadgesList extends React.Component {
-	render() {
-		if (this.props.badges.length === 0) {
-			// si el array esta vacio es decir no hubo ningun dato en el estado (el estado tenemos un array vacio) mostramos esto
-			return (
-				<div>
-					<h3>No encontramos ningun badge</h3>
-					<Link className="btn btn-primary" to="/badges/new">
-						Crea un nuevo badge
-					</Link>
-				</div>
-			);
-		}
+// creamos este custom hooks que usa el estado y filtra depende lo que escribio el usuario
+function useSearchBadges(badges) {
+	const [query, setQuery] = React.useState('');
 
+	const [filteredBadges, setfilteredBadges] = React.useState(badges);
+
+	// Para que filtre, del array de badges filtramos usamos .filter() manda a cada objeto del array por parámetro y si incluye lo que esta en el estado retornamos true o sino un false lo descartamos, filter nos retorna un array con todo filtrado y la guardamos en filteredBadges. pasamos todos los nombres de array y los pasamos a minusculas
+	React.useMemo(() => {
+		const result = badges.filter((badge) => {
+			return `${badge.firstName} ${badge.lastName}`
+				.toLowerCase()
+				.includes(query.toLowerCase());
+		});
+
+		setfilteredBadges(result);
+	}, [badges, query]);
+
+	return { query, setQuery, filteredBadges };
+}
+
+function BadgesList(props) {
+	const badges = props.badges;
+
+	// aqui usamos del estado el query y setquery que es lo que escribe el usuario en el input y el filteredBadges es lo que filtramos es un array con las palabras que contengan lo que se escribio en el query
+	const { query, setQuery, filteredBadges } = useSearchBadges(badges);
+
+	// console.log(query);
+	// console.log(setQuery);
+	console.log(filteredBadges);
+
+	if (filteredBadges.length === 0) {
+		// si el array esta vacio es decir no hubo ningun dato en el estado (el estado tenemos un array vacio) mostramos esto
 		return (
+			<div>
+				<div className="form-group">
+					<label>Filter Badges</label>
+					<input
+						type="text"
+						className="form-control"
+						value={query}
+						onChange={(e) => {
+							setQuery(e.target.value);
+						}}
+					/>
+				</div>
+
+				<h3>No encontramos ningun badge</h3>
+				<Link className="btn btn-primary" to="/badges/new">
+					Crea un nuevo badge
+				</Link>
+			</div>
+		);
+	}
+
+	return (
+		<React.Fragment>
+			<div className="form-group">
+				<label>Filter Badges</label>
+				<input
+					type="text"
+					className="form-control"
+					value={query}
+					onChange={(e) => {
+						setQuery(e.target.value);
+					}}
+				/>
+			</div>
+
 			<ul className="list-unstyled ul-BadgeList">
-				{this.props.badges.map((badge) => {
-					//el estado que lo estamos pasando como props (this.props.badges), vamos a iterar cada uno de sus elementos del objeto es un array el atributo data del estado
+				{filteredBadges.map((badge) => {
 					return (
 						<li key={badge.id} className="item-list-BadgeList">
 							<Gravatar
@@ -59,8 +111,8 @@ class BadgesList extends React.Component {
 					);
 				})}
 			</ul>
-		);
-	}
+		</React.Fragment>
+	);
 }
 
 export default BadgesList;
